@@ -42,14 +42,14 @@ public class BookApiClient : IBookApiClient
 
     public async Task<Result<BookDto?>> CreateBookAsync(CreateBookDto book, Stream? coverStream = null, string? coverFileName = null, string? coverContentType = null)
     {
-        using var content = BuildBookFormContent(book.Title, book.Author, book.Subject, book.Description, coverStream, coverFileName, coverContentType);
+        using var content = BuildBookFormContent(book.Title, book.Author, book.Subject, book.Description, book.GradeLevel, book.PublicationDate, book.Status, coverStream, coverFileName, coverContentType);
         var response = await _httpClient.PostAsync("api/v1/books", content);
         return await ReadBookResponseAsync(response);
     }
 
     public async Task<Result<BookDto?>> UpdateBookAsync(Guid id, UpdateBookDto book, Stream? coverStream = null, string? coverFileName = null, string? coverContentType = null)
     {
-        using var content = BuildBookFormContent(book.Title, book.Author, book.Subject, book.Description, coverStream, coverFileName, coverContentType);
+        using var content = BuildBookFormContent(book.Title, book.Author, book.Subject, book.Description, book.GradeLevel, book.PublicationDate, book.Status, coverStream, coverFileName, coverContentType);
         var response = await _httpClient.PutAsync($"api/v1/books/{id}", content);
         return await ReadBookResponseAsync(response);
     }
@@ -75,6 +75,9 @@ public class BookApiClient : IBookApiClient
         string author,
         string subject,
         string? description,
+        string? gradeLevel,
+        DateTime? publicationDate,
+        string? status,
         Stream? coverStream,
         string? coverFileName,
         string? coverContentType)
@@ -88,6 +91,15 @@ public class BookApiClient : IBookApiClient
 
         if (!string.IsNullOrWhiteSpace(description))
             content.Add(new StringContent(description), "Description");
+
+        if (!string.IsNullOrWhiteSpace(gradeLevel))
+            content.Add(new StringContent(gradeLevel), "GradeLevel");
+
+        if (publicationDate.HasValue)
+            content.Add(new StringContent(publicationDate.Value.ToString("yyyy-MM-dd")), "PublicationDate");
+
+        if (!string.IsNullOrWhiteSpace(status))
+            content.Add(new StringContent(status), "Status");
 
         if (coverStream is not null && !string.IsNullOrWhiteSpace(coverFileName))
         {

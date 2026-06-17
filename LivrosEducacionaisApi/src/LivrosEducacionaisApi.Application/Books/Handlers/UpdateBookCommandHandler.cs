@@ -51,7 +51,7 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Resul
         var version = new BookVersion(book);
         await _bookVersionRepository.AddAsync(version, cancellationToken);
 
-        book.Update(request.Title, request.Author, request.Subject, request.Description);
+        book.Update(request.Title, request.Author, request.Subject, request.Description, request.GradeLevel, request.PublicationDate, request.Status);
         if (newCoverUrl is not null)
         {
             book.SetCoverUrl(newCoverUrl);
@@ -71,6 +71,9 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Resul
             book.Author,
             book.Subject,
             book.Description,
+            book.GradeLevel,
+            book.PublicationDate,
+            book.Status,
             book.CoverUrl,
             book.Version,
             book.CreatedAt,

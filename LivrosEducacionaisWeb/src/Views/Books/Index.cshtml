@@ -92,6 +92,11 @@
                     <div class="book-meta mb-4">
                         <span>Autor: @book.Author</span>
                         <span>Disciplina: @book.Subject</span>
+                        @if (!string.IsNullOrEmpty(book.GradeLevel))
+                        {
+                            <span>Série/Ano: @book.GradeLevel</span>
+                        }
+                        <span>Status: @book.Status</span>
                     </div>
                     <div class="d-flex gap-2 mt-auto">
                         <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-outline-primary btn-sm flex-grow-1">Detalhes</a>

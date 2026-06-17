@@ -10,6 +10,8 @@ public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
         RuleFor(x => x.Title).NotEmpty().MaximumLength(200);
         RuleFor(x => x.Author).NotEmpty().MaximumLength(100);
         RuleFor(x => x.Subject).NotEmpty().MaximumLength(100);
+        RuleFor(x => x.GradeLevel).MaximumLength(50);
+        RuleFor(x => x.Status).MaximumLength(50);
         RuleFor(x => x.CoverFile)
             .Must(coverFile => CoverFileRules.Validate(coverFile) is null)
             .WithMessage(command => CoverFileRules.Validate(command.CoverFile) ?? string.Empty);

@@ -23,7 +23,7 @@ public class BooksController : ControllerBase
     public async Task<ActionResult<BookDto>> Create([FromForm] CreateBookRequest request, CancellationToken cancellationToken)
     {
         var coverFile = await ReadCoverFileAsync(request.CoverImage, cancellationToken);
-        var command = new CreateBookCommand(request.Title, request.Author, request.Subject, request.Description, coverFile);
+        var command = new CreateBookCommand(request.Title, request.Author, request.Subject, request.Description, request.GradeLevel, request.PublicationDate, request.Status, coverFile);
         var result = await _mediator.Send(command, cancellationToken);
 
         if (!result.IsSuccess)
@@ -58,7 +58,7 @@ public class BooksController : ControllerBase
     public async Task<ActionResult<BookDto>> Update(Guid id, [FromForm] UpdateBookRequest request, CancellationToken cancellationToken)
     {
         var coverFile = await ReadCoverFileAsync(request.CoverImage, cancellationToken);
-        var command = new UpdateBookCommand(id, request.Title, request.Author, request.Subject, request.Description, coverFile);
+        var command = new UpdateBookCommand(id, request.Title, request.Author, request.Subject, request.Description, request.GradeLevel, request.PublicationDate, request.Status, coverFile);
         var result = await _mediator.Send(command, cancellationToken);
 
         if (!result.IsSuccess)

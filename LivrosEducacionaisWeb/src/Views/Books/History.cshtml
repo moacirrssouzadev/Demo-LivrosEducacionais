@@ -38,10 +38,25 @@
                         <span class="badge text-bg-light align-self-start">@version.Subject</span>
                     </div>
 
-                    @if (!string.IsNullOrEmpty(version.Description))
-                    {
-                        <p class="mt-3 mb-0">@version.Description</p>
-                    }
+                    <dl class="mt-3 mb-0">
+                        @if (!string.IsNullOrEmpty(version.Description))
+                        {
+                            <dt>Descrição</dt>
+                            <dd>@version.Description</dd>
+                        }
+                        @if (!string.IsNullOrEmpty(version.GradeLevel))
+                        {
+                            <dt>Série/Ano</dt>
+                            <dd>@version.GradeLevel</dd>
+                        }
+                        @if (version.PublicationDate.HasValue)
+                        {
+                            <dt>Data de Publicação</dt>
+                            <dd>@version.PublicationDate.Value.ToString("dd/MM/yyyy")</dd>
+                        }
+                        <dt>Status</dt>
+                        <dd>@version.Status</dd>
+                    </dl>
                 </div>
             </article>
         }

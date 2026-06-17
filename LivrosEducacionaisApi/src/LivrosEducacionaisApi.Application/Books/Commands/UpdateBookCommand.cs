@@ -10,4 +10,7 @@ public record UpdateBookCommand(
     string Author,
     string Subject,
     string? Description,
+    string? GradeLevel,
+    DateTime? PublicationDate,
+    string Status,
     BookCoverFile? CoverFile = null) : IRequest<Result<BookDto>>;

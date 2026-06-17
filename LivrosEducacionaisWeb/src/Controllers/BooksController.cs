@@ -37,6 +37,9 @@ public class BooksController : Controller
                     Title = b.Title,
                     Author = b.Author,
                     Subject = b.Subject,
+                    GradeLevel = b.GradeLevel,
+                    PublicationDate = b.PublicationDate,
+                    Status = b.Status,
                     CoverUrl = b.CoverUrl,
                     Version = b.Version
                 }).ToList(),
@@ -73,6 +76,9 @@ public class BooksController : Controller
                 Author = result.Value.Author,
                 Subject = result.Value.Subject,
                 Description = result.Value.Description,
+                GradeLevel = result.Value.GradeLevel,
+                PublicationDate = result.Value.PublicationDate,
+                Status = result.Value.Status,
                 CoverUrl = result.Value.CoverUrl,
                 Version = result.Value.Version,
                 CreatedAt = result.Value.CreatedAt,
@@ -109,7 +115,10 @@ public class BooksController : Controller
                 Title = viewModel.Title,
                 Author = viewModel.Author,
                 Subject = viewModel.Subject,
-                Description = viewModel.Description
+                Description = viewModel.Description,
+                GradeLevel = viewModel.GradeLevel,
+                PublicationDate = viewModel.PublicationDate,
+                Status = viewModel.Status
             };
 
             Result<BookDto?> createResult;
@@ -163,6 +172,9 @@ public class BooksController : Controller
                 Author = result.Value.Author,
                 Subject = result.Value.Subject,
                 Description = result.Value.Description,
+                GradeLevel = result.Value.GradeLevel,
+                PublicationDate = result.Value.PublicationDate,
+                Status = result.Value.Status,
                 CurrentCoverUrl = result.Value.CoverUrl
             };
             return View(viewModel);
@@ -193,7 +205,10 @@ public class BooksController : Controller
                 Title = viewModel.Title,
                 Author = viewModel.Author,
                 Subject = viewModel.Subject,
-                Description = viewModel.Description
+                Description = viewModel.Description,
+                GradeLevel = viewModel.GradeLevel,
+                PublicationDate = viewModel.PublicationDate,
+                Status = viewModel.Status
             };
 
             Result<BookDto?> updateResult;
@@ -279,6 +294,9 @@ public class BooksController : Controller
                     Author = v.Author,
                     Subject = v.Subject,
                     Description = v.Description,
+                    GradeLevel = v.GradeLevel,
+                    PublicationDate = v.PublicationDate,
+                    Status = v.Status,
                     CoverUrl = v.CoverUrl,
                     CreatedAt = v.CreatedAt
                 }).ToList()

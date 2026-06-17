@@ -37,6 +37,31 @@
             </div>
         </div>
 
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                <label asp-for="GradeLevel" class="form-label">Série/Ano</label>
+                <input asp-for="GradeLevel" class="form-control" placeholder="Ex.: 5º Ano, Ensino Médio">
+                <span asp-validation-for="GradeLevel" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="PublicationDate" class="form-label">Data de Publicação</label>
+                <input asp-for="PublicationDate" class="form-control" type="date">
+                <span asp-validation-for="PublicationDate" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                <label asp-for="Status" class="form-label">Status</label>
+                <select asp-for="Status" class="form-control">
+                    <option value="Ativo">Ativo</option>
+                    <option value="Inativo">Inativo</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger small"></span>
+            </div>
+        </div>
+
         <div class="mt-3">
             <label asp-for="Description" class="form-label">Descrição</label>
             <textarea asp-for="Description" class="form-control" rows="5" placeholder="Resumo, série indicada ou observações do material"></textarea>

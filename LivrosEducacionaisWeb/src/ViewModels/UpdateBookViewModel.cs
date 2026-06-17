@@ -21,6 +21,16 @@ public class UpdateBookViewModel
     [StringLength(1000, ErrorMessage = "Descrição não pode exceder 1000 caracteres")]
     public string? Description { get; set; }
 
+    [StringLength(50, ErrorMessage = "Série/Ano não pode exceder 50 caracteres")]
+    public string? GradeLevel { get; set; }
+
+    [DataType(DataType.Date, ErrorMessage = "Data de publicação inválida")]
+    public DateTime? PublicationDate { get; set; }
+
+    [Required(ErrorMessage = "Status é obrigatório")]
+    [StringLength(50, ErrorMessage = "Status não pode exceder 50 caracteres")]
+    public string Status { get; set; } = string.Empty;
+
     public string? CurrentCoverUrl { get; set; }
     public IFormFile? CoverImage { get; set; }
 }

@@ -55,6 +55,15 @@
                 <dt>Disciplina</dt>
                 <dd>@Model.Subject</dd>
 
+                <dt>Série/Ano</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.GradeLevel) ? "Não informado" : Model.GradeLevel)</dd>
+
+                <dt>Data de Publicação</dt>
+                <dd>@(Model.PublicationDate.HasValue ? Model.PublicationDate.Value.ToString("dd/MM/yyyy") : "Não informada")</dd>
+
+                <dt>Status</dt>
+                <dd>@Model.Status</dd>
+
                 <dt>Descrição</dt>
                 <dd>@(string.IsNullOrWhiteSpace(Model.Description) ? "Sem descrição cadastrada." : Model.Description)</dd>
 

@@ -25,6 +25,9 @@ public class GetBookHistoryQueryHandler : IRequestHandler<GetBookHistoryQuery, R
             v.Author,
             v.Subject,
             v.Description,
+            v.GradeLevel,
+            v.PublicationDate,
+            v.Status,
             v.CoverUrl,
             v.CreatedAt
         )).OrderByDescending(v => v.VersionNumber).ToList();

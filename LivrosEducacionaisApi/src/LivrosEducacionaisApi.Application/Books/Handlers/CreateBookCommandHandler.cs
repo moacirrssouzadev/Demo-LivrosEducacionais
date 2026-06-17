@@ -27,7 +27,7 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Resul
         if (coverValidationError is not null)
             return Result<BookDto>.Failure(coverValidationError);
 
-        var book = new Book(request.Title, request.Author, request.Subject, request.Description);
+        var book = new Book(request.Title, request.Author, request.Subject, request.Description, request.GradeLevel, request.PublicationDate, request.Status);
 
         if (request.CoverFile is not null)
         {
@@ -51,6 +51,9 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Resul
             book.Author,
             book.Subject,
             book.Description,
+            book.GradeLevel,
+            book.PublicationDate,
+            book.Status,
             book.CoverUrl,
             book.Version,
             book.CreatedAt,
