@@ -22,7 +22,10 @@ public class CreateBookCommandValidatorTests
             Title: "Valid Title",
             Author: "Valid Author",
             Subject: "Valid Subject",
-            Description: "Valid Description"
+            Description: "Valid Description",
+            GradeLevel: "Valid Grade",
+            PublicationDate: new DateTime(2023, 1, 1),
+            Status: "Ativo"
         );
 
         // Act
@@ -44,7 +47,10 @@ public class CreateBookCommandValidatorTests
             Title: title,
             Author: "Valid Author",
             Subject: "Valid Subject",
-            Description: null
+            Description: null,
+            GradeLevel: null,
+            PublicationDate: null,
+            Status: null
         );
 
         // Act
@@ -64,7 +70,10 @@ public class CreateBookCommandValidatorTests
             Title: longTitle,
             Author: "Valid Author",
             Subject: "Valid Subject",
-            Description: null
+            Description: null,
+            GradeLevel: null,
+            PublicationDate: null,
+            Status: null
         );
 
         // Act
@@ -86,7 +95,10 @@ public class CreateBookCommandValidatorTests
             Title: "Valid Title",
             Author: author,
             Subject: "Valid Subject",
-            Description: null
+            Description: null,
+            GradeLevel: null,
+            PublicationDate: null,
+            Status: null
         );
 
         // Act
@@ -106,7 +118,10 @@ public class CreateBookCommandValidatorTests
             Title: "Valid Title",
             Author: longAuthor,
             Subject: "Valid Subject",
-            Description: null
+            Description: null,
+            GradeLevel: null,
+            PublicationDate: null,
+            Status: null
         );
 
         // Act
@@ -128,7 +143,10 @@ public class CreateBookCommandValidatorTests
             Title: "Valid Title",
             Author: "Valid Author",
             Subject: subject,
-            Description: null
+            Description: null,
+            GradeLevel: null,
+            PublicationDate: null,
+            Status: null
         );
 
         // Act
@@ -148,7 +166,10 @@ public class CreateBookCommandValidatorTests
             Title: "Valid Title",
             Author: "Valid Author",
             Subject: longSubject,
-            Description: null
+            Description: null,
+            GradeLevel: null,
+            PublicationDate: null,
+            Status: null
         );
 
         // Act
@@ -157,5 +178,51 @@ public class CreateBookCommandValidatorTests
         // Assert
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle(e => e.PropertyName == nameof(command.Subject));
+    }
+    
+    [Fact]
+    public void Validate_WithTooLongGradeLevel_ShouldFail()
+    {
+        // Arrange
+        var longGradeLevel = new string('A', 51);
+        var command = new CreateBookCommand(
+            Title: "Valid Title",
+            Author: "Valid Author",
+            Subject: "Valid Subject",
+            Description: null,
+            GradeLevel: longGradeLevel,
+            PublicationDate: null,
+            Status: null
+        );
+
+        // Act
+        var result = _validator.Validate(command);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().ContainSingle(e => e.PropertyName == nameof(command.GradeLevel));
+    }
+    
+    [Fact]
+    public void Validate_WithTooLongStatus_ShouldFail()
+    {
+        // Arrange
+        var longStatus = new string('A', 51);
+        var command = new CreateBookCommand(
+            Title: "Valid Title",
+            Author: "Valid Author",
+            Subject: "Valid Subject",
+            Description: null,
+            GradeLevel: null,
+            PublicationDate: null,
+            Status: longStatus
+        );
+
+        // Act
+        var result = _validator.Validate(command);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().ContainSingle(e => e.PropertyName == nameof(command.Status));
     }
 }

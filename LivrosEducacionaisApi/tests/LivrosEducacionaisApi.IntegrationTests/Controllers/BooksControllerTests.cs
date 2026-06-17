@@ -51,11 +51,24 @@ public class BooksControllerTests : IClassFixture<TestApplicationFactory>
             Title = "Integration Test Book",
             Author = "Integration Test Author",
             Subject = "Integration Test Subject",
-            Description = "Integration Test Description"
+            Description = "Integration Test Description",
+            GradeLevel = "5th Grade",
+            PublicationDate = "2023-01-01",
+            Status = "Ativo"
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/api/v1/books", newBook);
+        // We need to use MultipartFormDataContent because the controller accepts it, not JSON
+        using var content = new MultipartFormDataContent();
+        content.Add(new StringContent(newBook.Title), "Title");
+        content.Add(new StringContent(newBook.Author), "Author");
+        content.Add(new StringContent(newBook.Subject), "Subject");
+        content.Add(new StringContent(newBook.Description), "Description");
+        content.Add(new StringContent(newBook.GradeLevel), "GradeLevel");
+        content.Add(new StringContent(newBook.PublicationDate), "PublicationDate");
+        content.Add(new StringContent(newBook.Status), "Status");
+
+        var response = await _client.PostAsync("/api/v1/books", content);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -66,6 +79,9 @@ public class BooksControllerTests : IClassFixture<TestApplicationFactory>
         createdBook.Author.Should().Be(newBook.Author);
         createdBook.Subject.Should().Be(newBook.Subject);
         createdBook.Description.Should().Be(newBook.Description);
+        createdBook.GradeLevel.Should().Be(newBook.GradeLevel);
+        createdBook.PublicationDate.Should().Be(new DateTime(2023, 1, 1));
+        createdBook.Status.Should().Be(newBook.Status);
 
         // Verifica no banco de dados
         var dbContext = _factory.GetDbContext();
@@ -112,11 +128,23 @@ public class BooksControllerTests : IClassFixture<TestApplicationFactory>
             Title = "Updated Title",
             Author = "Updated Author",
             Subject = "Updated Subject",
-            Description = "Updated Description"
+            Description = "Updated Description",
+            GradeLevel = "Updated Grade",
+            PublicationDate = "2024-01-01",
+            Status = "Inativo"
         };
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/api/v1/books/{book.Id}", updateData);
+        using var content = new MultipartFormDataContent();
+        content.Add(new StringContent(updateData.Title), "Title");
+        content.Add(new StringContent(updateData.Author), "Author");
+        content.Add(new StringContent(updateData.Subject), "Subject");
+        content.Add(new StringContent(updateData.Description), "Description");
+        content.Add(new StringContent(updateData.GradeLevel), "GradeLevel");
+        content.Add(new StringContent(updateData.PublicationDate), "PublicationDate");
+        content.Add(new StringContent(updateData.Status), "Status");
+
+        var response = await _client.PutAsync($"/api/v1/books/{book.Id}", content);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -126,6 +154,8 @@ public class BooksControllerTests : IClassFixture<TestApplicationFactory>
         var updatedBook = await dbContext.Books.FindAsync(book.Id);
         updatedBook.Should().NotBeNull();
         updatedBook.Title.Should().Be(updateData.Title);
+        updatedBook.GradeLevel.Should().Be(updateData.GradeLevel);
+        updatedBook.Status.Should().Be(updateData.Status);
         updatedBook.Version.Should().Be(2);
     }
 
