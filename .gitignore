@@ -1,0 +1,30 @@
+# .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.cache
+*.log
+*.ilk
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+.data-protection-keys/
+
+# Docker
+.dockerignore
+.env

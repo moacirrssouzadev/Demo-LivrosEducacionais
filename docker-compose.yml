@@ -1,0 +1,86 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: livros-educacionais-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - livros-network
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    container_name: livros-educacionais-redis
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    networks:
+      - livros-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /data:rw,size=100m
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: ./LivrosEducacionaisApi/src/LivrosEducacionaisApi.Api/Dockerfile
+    container_name: livros-educacionais-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ConnectionStrings__DefaultConnection=${ConnectionStrings__DefaultConnection}
+      - ConnectionStrings__Redis=${ConnectionStrings__Redis}
+      - AzureStorage__ConnectionString=${AzureStorage__ConnectionString}
+    ports:
+      - "5000:8080"
+    depends_on:
+      sqlserver:
+        condition: service_started
+      redis:
+        condition: service_started
+    networks:
+      - livros-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,size=100m
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: ./LivrosEducacionaisWeb/src/Dockerfile
+    container_name: livros-educacionais-web
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ApiSettings__BaseUrl=${ApiSettings__BaseUrl}
+    ports:
+      - "5001:8080"
+    depends_on:
+      api:
+        condition: service_started
+    networks:
+      - livros-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,size=100m
+    restart: unless-stopped
+
+volumes:
+  sqlserver-data:
+
+networks:
+  livros-network:
+    driver: bridge

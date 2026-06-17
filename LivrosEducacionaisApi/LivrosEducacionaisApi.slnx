@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LivrosEducacionaisApi.Api/LivrosEducacionaisApi.Api.csproj" />
+    <Project Path="src/LivrosEducacionaisApi.Application/LivrosEducacionaisApi.Application.csproj" />
+    <Project Path="src/LivrosEducacionaisApi.Domain/LivrosEducacionaisApi.Domain.csproj" />
+    <Project Path="src/LivrosEducacionaisApi.Infrastructure/LivrosEducacionaisApi.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LivrosEducacionaisApi.IntegrationTests/LivrosEducacionaisApi.IntegrationTests.csproj" />
+    <Project Path="tests/LivrosEducacionaisApi.UnitTests/LivrosEducacionaisApi.UnitTests.csproj" />
+  </Folder>
+</Solution>

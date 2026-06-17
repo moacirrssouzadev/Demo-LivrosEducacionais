@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Livros Educacionais</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LivrosEducacionais.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="app-header">
+        <nav class="navbar navbar-expand-lg app-nav">
+            <div class="container-fluid app-shell">
+                <a class="navbar-brand brand-mark" asp-area="" asp-controller="Books" asp-action="Index" aria-label="Livros Educacionais">
+                    <span class="brand-icon" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                            <path d="M8 7h8" />
+                            <path d="M8 11h8" />
+                        </svg>
+                    </span>
+                    <span>Livros Educacionais</span>
+                </a>
+
+                <button class="navbar-toggler app-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation"
+                        aria-expanded="false" aria-label="Abrir navegação">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavigation">
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                        <li class="nav-item">
+                            <a class="nav-link app-nav-link" asp-area="" asp-controller="Books" asp-action="Index">Acervo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary btn-sm app-nav-action" asp-area="" asp-controller="Books" asp-action="Create">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M12 5v14" />
+                                    <path d="M5 12h14" />
+                                </svg>
+                                Novo livro
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="app-shell app-alerts">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show app-alert" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show app-alert" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+            </div>
+        }
+    </div>
+
+    <main role="main" class="app-main">
+        <div class="app-shell">
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="app-shell d-flex flex-column flex-sm-row justify-content-between gap-2">
+            <span>&copy; 2026 Livros Educacionais</span>
+            <span>Gestão de acervo didático</span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

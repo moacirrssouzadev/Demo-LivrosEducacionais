@@ -1,0 +1,65 @@
+@model BookHistoryViewModel
+
+@{
+    ViewData["Title"] = "Histórico de Versões";
+}
+
+<div class="page-header">
+    <div>
+        <p class="page-kicker">Versões</p>
+        <h1 class="page-title">Histórico de versões</h1>
+        <p class="page-subtitle">@Model.BookTitle</p>
+    </div>
+    <a asp-action="Details" asp-route-id="@Model.BookId" class="btn btn-outline-secondary">Voltar aos detalhes</a>
+</div>
+
+@if (Model.Versions.Any())
+{
+    <section class="timeline" aria-label="Histórico de versões do livro">
+        @foreach (var version in Model.Versions)
+        {
+            <article class="card timeline-item">
+                <div class="card-body p-4 ps-5">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+                        <div class="d-flex gap-3">
+                            @if (!string.IsNullOrEmpty(version.CoverUrl))
+                            {
+                                <img src="@version.CoverUrl" alt="Capa da versão @version.VersionNumber" class="timeline-cover">
+                            }
+                            <div>
+                                <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                                    <span class="badge badge-soft">v@version.VersionNumber</span>
+                                    <span class="text-muted">@version.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                                </div>
+                                <h2 class="h4 fw-bold mb-2">@version.Title</h2>
+                                <p class="text-muted mb-0">Autor: @version.Author</p>
+                            </div>
+                        </div>
+                        <span class="badge text-bg-light align-self-start">@version.Subject</span>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(version.Description))
+                    {
+                        <p class="mt-3 mb-0">@version.Description</p>
+                    }
+                </div>
+            </article>
+        }
+    </section>
+}
+else
+{
+    <section class="empty-state">
+        <div>
+            <span class="empty-icon mx-auto" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 8v4l3 3" />
+                    <circle cx="12" cy="12" r="10" />
+                </svg>
+            </span>
+            <h2 class="h4">Nenhuma versão encontrada</h2>
+            <p class="text-muted mb-4">As alterações do livro aparecerão aqui quando houver versões registradas.</p>
+            <a asp-action="Details" asp-route-id="@Model.BookId" class="btn btn-primary">Voltar aos detalhes</a>
+        </div>
+    </section>
+}

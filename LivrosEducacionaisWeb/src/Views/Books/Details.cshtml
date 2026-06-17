@@ -1,0 +1,93 @@
+@model BookDetailsViewModel
+
+@{
+    ViewData["Title"] = "Detalhes do Livro";
+}
+
+<div class="page-header">
+    <div>
+        <p class="page-kicker">@Model.Subject</p>
+        <h1 class="page-title">@Model.Title</h1>
+        <p class="page-subtitle">Por @Model.Author</p>
+    </div>
+    <div class="btn-group" role="group" aria-label="Ações do livro">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Editar</a>
+        <a asp-action="History" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Histórico</a>
+        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</button>
+    </div>
+</div>
+
+<section class="detail-layout">
+    <aside class="card overflow-hidden">
+        @if (!string.IsNullOrEmpty(Model.CoverUrl))
+        {
+            <img src="@Model.CoverUrl" class="detail-cover" alt="Capa de @Model.Title">
+        }
+        else
+        {
+            <div class="cover-placeholder detail-empty-cover" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                </svg>
+            </div>
+        }
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <span class="text-muted fw-bold">Versão atual</span>
+            <span class="badge badge-soft">v@Model.Version</span>
+        </div>
+    </aside>
+
+    <article class="card">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+                <span class="badge badge-soft">@Model.Subject</span>
+                <span class="text-muted">Criado em @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+            </div>
+
+            <dl class="definition-grid">
+                <dt>Título</dt>
+                <dd>@Model.Title</dd>
+
+                <dt>Autor</dt>
+                <dd>@Model.Author</dd>
+
+                <dt>Disciplina</dt>
+                <dd>@Model.Subject</dd>
+
+                <dt>Descrição</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.Description) ? "Sem descrição cadastrada." : Model.Description)</dd>
+
+                <dt>Criado em</dt>
+                <dd>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                <dt>Atualizado em</dt>
+                <dd>@(Model.UpdatedAt.HasValue ? Model.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm") : "Ainda não atualizado")</dd>
+            </dl>
+        </div>
+        <div class="card-footer d-flex flex-column flex-sm-row gap-2 justify-content-between">
+            <a asp-action="Index" class="btn btn-outline-secondary">Voltar ao acervo</a>
+            <a asp-action="History" asp-route-id="@Model.Id" class="btn btn-primary">Ver versões</a>
+        </div>
+    </article>
+</section>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="deleteModalLabel">Excluir livro</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir <strong>@Model.Title</strong>? Esta ação remove o registro do acervo.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Excluir livro</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
